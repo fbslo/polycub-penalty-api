@@ -4,7 +4,7 @@ const db = require('quick.db');
 const express = require("express")
 const app = express()
 
-const { snapshot, getCurrentBlock, BN } = require("./snapshot/index.js")
+const { snapshot, getCurrentBlock, store, BN } = require("./snapshot/index.js")
 
 let cache = {
   last: new Date().getTime(),
@@ -36,7 +36,7 @@ app.get("/", async (req, res) => {
   }
 })
 
-function sum(data){
+async function sum(data){
   let week = 0
   let day = 0;
 
@@ -45,7 +45,7 @@ function sum(data){
   let oneDayBlock = currentBlock - 43200
 
   for (const key in data) {
-    if (data["block"] > oneWeekBlock)
+    if (data["block"] > oneWeekBlock){
       week = new BN(week).add(new BN(data["penalty"]))
     }
 

@@ -31,7 +31,7 @@ async function getAlreadyStored(db){
 
 async function store(db, transactionHash, user, penalty){
   return new Promise(async (resolve, reject) => {
-    let txs = await db.set('transactions', { txs[transactionHash]: { "user": user, "penalty": penalty } })
+    let txs = await db.set('transactions.txs.'+transactionHash, { "user": user, "penalty": penalty })
     resolve(txs)
   })
 }
@@ -44,12 +44,14 @@ async function getCurrentBlock(){
 }
 
 module.exports.snapshot = snapshot
+module.exports.store = store
+module.exports.getAlreadyStored = getAlreadyStored
 module.exports.getCurrentBlock = getCurrentBlock
 module.exports.BN = web3.utils.BN;
 
 // {
 //   txs: {
-//     "transactionHash": {
+//     "0x1234transactionHash": {
 //       user: "0x123",
 //       penalty: "12345",
 //       block: 1203445
