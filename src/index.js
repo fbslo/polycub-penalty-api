@@ -6,8 +6,6 @@ const app = express()
 
 const { snapshot, getCurrentBlock, store, BN } = require("./snapshot/index.js")
 
-
-
 let cache = {
   last: 0,
   data: {
