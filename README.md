@@ -1,0 +1,1 @@
+- Every 3000 blocks, get all `Claim` events from masterchef, sum `penalty` amount
