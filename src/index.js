@@ -6,8 +6,10 @@ const app = express()
 
 const { snapshot, getCurrentBlock, store, BN } = require("./snapshot/index.js")
 
+
+
 let cache = {
-  last: new Date().getTime(),
+  last: 0,
   data: {
     week: "0",
     day: "0"
@@ -19,7 +21,7 @@ app.get("/", async (req, res) => {
     cache.last = new Date().getTime()
 
     let data = await getAlreadyStored(db)
-    let sum = await sum(data)
+    let sum = await sumData(data)
 
     cache.data.day = sum.day
     cache.data.week = sum.week
@@ -36,7 +38,7 @@ app.get("/", async (req, res) => {
   }
 })
 
-async function sum(data){
+async function sumData(data){
   let week = 0
   let day = 0;
 
@@ -45,12 +47,12 @@ async function sum(data){
   let oneDayBlock = currentBlock - 43200
 
   for (const key in data) {
-    if (data["block"] > oneWeekBlock){
-      week = new BN(week).add(new BN(data["penalty"]))
+    if (data[key]["block"] > oneWeekBlock){
+      week = new BN(week).add(new BN(data[key]["penalty"])).toString()
     }
 
-    if (data["block"] > oneDayBlock){
-      day = new BN(day).add(new BN(data["penalty"]))
+    if (data[key]["block"] > oneDayBlock){
+      day = new BN(day).add(new BN(data[key]["penalty"])).toString()
     }
   }
 

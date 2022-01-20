@@ -9,7 +9,7 @@ async function snapshot(db){
   let alreadyStored = await getAlreadyStored(db, )
   for (i in logs){
     if (!alreadyStored.txs[logs[i].transactionHash]){
-      await store(db, logs[i].transactionHash, logs[i].returnValues.user, logs[i].returnValues.penalty)
+      await store(db, logs[i].transactionHash, logs[i].returnValues.user, logs[i].returnValues.penalty, logs[i].blockNumber)
     }
   }
 }
@@ -29,9 +29,9 @@ async function getAlreadyStored(db){
   })
 }
 
-async function store(db, transactionHash, user, penalty){
+async function store(db, transactionHash, user, penalty, block){
   return new Promise(async (resolve, reject) => {
-    let txs = await db.set('transactions.txs.'+transactionHash, { "user": user, "penalty": penalty })
+    let txs = await db.set('transactions.txs.'+transactionHash, { "user": user, "penalty": penalty, "block": block })
     resolve(txs)
   })
 }
