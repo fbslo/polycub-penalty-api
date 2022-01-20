@@ -12,3 +12,5 @@ API:
   "day": "1230000000000000000"
 }
 ```
+
+Data is updated every 5000 seconds, cached every hour.
